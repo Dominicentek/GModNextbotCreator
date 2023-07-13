@@ -210,7 +210,7 @@ public class Main {
             if (jumpPath != null) Files.copy(jumpPath.toPath(), new File(sndNpcDir, jumpPath.getName()).toPath());
             if (killPath != null) Files.copy(killPath.toPath(), new File(sndNpcDir, killPath.getName()).toPath());
             File imagePath = new File(matEntDir, "npc_" + name + ".png");
-            ImageIO.write(ImageIO.read(imgPath), "png", imagePath);
+            ImageIO.write(ensurePowerOf2(ImageIO.read(imgPath)), "png", imagePath);
             if (new ProcessBuilder().directory(appDir).command(new File(appDir, "VTFCmd.exe").getAbsolutePath(), "-file", imagePath.getAbsolutePath(), "-output", matNpcDir.getAbsolutePath(), "-format", "rgb888").start().waitFor() != 0) throw new Exception();
             return true;
         }
@@ -245,6 +245,7 @@ public class Main {
             BufferedImage resized = new BufferedImage(512, 512, BufferedImage.TYPE_INT_ARGB);
             Graphics g = resized.getGraphics();
             g.drawImage(image, 0, 0, 512, 512, null);
+            g.dispose();
             exportAsJpg(resized, new File(appDir, "thumbnail.jpg"));
         }
         catch (Exception e) {
@@ -290,6 +291,15 @@ public class Main {
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), px, 0, image.getWidth());
         img.setRGB(0, 0, image.getWidth(), image.getHeight(), px, 0, image.getWidth());
         ImageIO.write(img, "jpg", file);
+    }
+    public static BufferedImage ensurePowerOf2(BufferedImage orig) {
+        int width = (int)Math.pow(2, Math.round(Math.log(orig.getWidth()) / Math.log(2)));
+        int height = (int)Math.pow(2, Math.round(Math.log(orig.getWidth()) / Math.log(2)));
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = img.getGraphics();
+        g.drawImage(orig, 0, 0, width, height, null);
+        g.dispose();
+        return img;
     }
     public static class Placeholder {
         public static final int REPLACEMENT = 0;
