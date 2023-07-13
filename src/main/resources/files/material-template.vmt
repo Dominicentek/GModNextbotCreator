@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "npc_{{NEXTBOT-NAME}}/npc_{{NEXTBOT-NAME}}"
+	"$alphatest" 1
+}

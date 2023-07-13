@@ -1,0 +1,15 @@
+{
+  "title": "{{NEXTBOT-NAME}}",
+  "type": "npc",
+  "description": "Created using Dominicentek's GMod Nextbot Creator",
+  "version": "1.0",
+  "icon": "materials/entities/npc_{{NEXTBOT-NAME}}.png",
+  "materials": [
+    "materials/npc_{{NEXTBOT-NAME}}/killicon.vmt",
+    "materials/npc_{{NEXTBOT-NAME}}/{{NEXTBOT-NAME}}.vmt",
+    "materials/npc_{{NEXTBOT-NAME}}/{{NEXTBOT-NAME}}.vtf"
+  ],
+  "lua": [
+    "lua/entities/npc_{{NEXTBOT-NAME}}.lua"
+  ]
+}
