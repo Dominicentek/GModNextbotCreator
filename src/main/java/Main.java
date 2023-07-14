@@ -15,7 +15,7 @@ public class Main {
     public static int options = 0;
     public static String name = "";
     public static String displayName = "";
-    public static String category = "";
+    public static String category = "Nextbot";
     public static boolean adminOnly = false;
     public static File imgPath = null;
     public static File chasePath = null;
