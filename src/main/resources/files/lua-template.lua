@@ -1132,8 +1132,8 @@ end
 -- List the NPC as spawnable.
 --
 list.Set("NPC", "npc_{{NEXTBOT-NAME}}", {
-	Name = "{{NEXTBOT-NAME}}",
+	Name = "{{NEXTBOT-DISPLAY-NAME}}",
 	Class = "npc_{{NEXTBOT-NAME}}",
-	Category = "Nextbot",
-	AdminOnly = false
+	Category = "{{NEXTBOT-CATEGORY}}",
+	AdminOnly = {{ADMIN-ONLY-SPAWN}}
 })

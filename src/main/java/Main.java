@@ -14,6 +14,9 @@ import java.nio.file.Files;
 public class Main {
     public static int options = 0;
     public static String name = "";
+    public static String displayName = "";
+    public static String category = "";
+    public static boolean adminOnly = false;
     public static File imgPath = null;
     public static File chasePath = null;
     public static File jumpPath = null;
@@ -41,7 +44,7 @@ public class Main {
         JDialog frame = new JDialog((Dialog)null);
         frame.setTitle("GMod Nextbot Creator");
         frame.setLocation(100, 100);
-        frame.getContentPane().setPreferredSize(new Dimension(271, 187));
+        frame.getContentPane().setPreferredSize(new Dimension(271, 274));
         frame.pack();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -53,10 +56,13 @@ public class Main {
         });
         frame.setLayout(null);
         JTextField nameField = addOption(frame, "Name", new JTextField());
+        JTextField displayNameField = addOption(frame, "Display Name", new JTextField());
+        JTextField categoryField = addOption(frame, "Category", new JTextField("Nextbot"));
         JButton imageButton = addOption(frame, "Image", new JButton("<no image>"));
         JButton chaseButton = addOption(frame, "Chase Sound", new JButton("<no sound>"));
         JButton jumpButton = addOption(frame, "Jump Sound", new JButton("<no sound>"));
         JButton killButton = addOption(frame, "Kill Sound", new JButton("<no sound>"));
+        JCheckBox adminOnlyCheckbox = addOption(frame, "Admin Only Spawnlist", new JCheckBox());
         JButton publishButton = new JButton("Publish");
         JButton addToGmodButton = new JButton("Add to GMod");
         publishButton.setBounds(5, 5 + options * 29, 128, 32);
@@ -65,6 +71,12 @@ public class Main {
         frame.add(addToGmodButton);
         nameField.addCaretListener((e) -> {
             name = nameField.getText();
+        });
+        displayNameField.addCaretListener((e) -> {
+            displayName = displayNameField.getText();
+        });
+        categoryField.addCaretListener((e) -> {
+            category = categoryField.getText().trim();
         });
         imageButton.addActionListener((e) -> {
             File file = selectFile(frame, false, imageButton, "<no image>");
@@ -79,6 +91,9 @@ public class Main {
         });
         killButton.addActionListener((e) -> {
             killPath = selectFile(frame, true, killButton, "<no sound>");
+        });
+        adminOnlyCheckbox.addChangeListener((e) -> {
+            adminOnly = adminOnlyCheckbox.isSelected();
         });
         publishButton.addActionListener((e) -> {
             if (!buildAddon()) return;
@@ -162,6 +177,7 @@ public class Main {
         String msg = null;
         if (imgPath == null) msg = "No image specified";
         if (name.isEmpty()) msg = "Name is empty";
+        if (category.isEmpty()) msg = "Category is empty";
         if (!checkInvalidCharacters(name, "ABCDEFHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_".toCharArray())) msg = "Name must contain only letters, numbers and underscores.";
         if (msg != null) {
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
@@ -194,6 +210,9 @@ public class Main {
             sndNpcDir.mkdirs();
             Placeholder[] placeholders = {
                 new Placeholder("NEXTBOT-NAME", name, Placeholder.REPLACEMENT),
+                new Placeholder("NEXTBOT-DISPLAY-NAME", displayName.isEmpty() ? name : displayName, Placeholder.REPLACEMENT),
+                new Placeholder("NEXTBOT-CATEGORY", category, Placeholder.REPLACEMENT),
+                new Placeholder("ADMIN-ONLY-SPAWN", "" + adminOnly, Placeholder.REPLACEMENT),
                 chasePath == null ? null : new Placeholder("CHASE-SOUND-FILE", chasePath.getName(), Placeholder.REPLACEMENT),
                 jumpPath == null ? null : new Placeholder("JUMP-SOUND-FILE", jumpPath.getName(), Placeholder.REPLACEMENT),
                 killPath == null ? null : new Placeholder("KILL-SOUND-FILE", killPath.getName(), Placeholder.REPLACEMENT),
