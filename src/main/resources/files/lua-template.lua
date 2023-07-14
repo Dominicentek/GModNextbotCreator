@@ -650,8 +650,8 @@ function ENT:At{{NEXTBOT-NAME}}tJumpAtTarget()
 		self.loco:Jump()
 		self.loco:SetJumpHeight(300)
 
-		self:EmitSound((jumpHeight > HIGH_JUMP_HEIGHT and
-			table.Random(self.JumpSound) or table.Random(self.JumpSound)), 350, 100)
+		if #self.JumpSound ~= 0 then self:EmitSound((jumpHeight > HIGH_JUMP_HEIGHT and
+			table.Random(self.JumpSound) or table.Random(self.JumpSound)), 350, 100) end
 			
 	end
 end
@@ -728,7 +728,7 @@ function ENT:BehaveUpdate() --TODO: Split this up more. Eww.
 			if self:AttackNearbyTargets(attackDistance) then
 				if currentTime - self.LastTaunt > TAUNT_INTERVAL then
 					self.LastTaunt = currentTime
-					self:EmitSound(table.Random(self.TauntSounds), 350, 100)
+					if #self.TauntSounds ~= 0 then self:EmitSound(table.Random(self.TauntSounds), 350, 100) end
 				end
 
 				-- Immediately look for another target.
