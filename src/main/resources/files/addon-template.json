@@ -1,5 +1,5 @@
 {
-  "title": "{{NEXTBOT-NAME}}",
+  "title": "{{NEXTBOT-DISPLAY-NAME}}",
   "type": "npc",
   "description": "Created using Dominicentek's GMod Nextbot Creator",
   "version": "1.0",
